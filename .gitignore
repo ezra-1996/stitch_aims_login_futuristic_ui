@@ -1,0 +1,23 @@
+# Node
+node_modules/
+dist/
+build/
+.npm
+.yarn
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/

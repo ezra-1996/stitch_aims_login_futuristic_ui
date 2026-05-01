@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 10 18 18; /* #0a1212 */
+    --color-text: 255 255 255; /* #ffffff */
+    --color-inverse: 0 0 0; /* #000000 */
+    --color-primary: 19 236 236; /* #13ecec */
+  }
+
+  :root.light {
+    --color-bg: 246 248 248; /* #f6f8f8 */
+    --color-text: 17 24 24; /* #111818 charcoal */
+    --color-inverse: 255 255 255; /* #ffffff */
+    --color-primary: 0 135 135; /* Darker teal for contrast */
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-[rgba(16,34,34,0.75)] backdrop-blur-[20px] border border-[rgba(19,236,236,0.3)] shadow-[0_0_40px_rgba(0,0,0,0.5),inset_0_0_10px_rgba(19,236,236,0.05)];
+  }
+  
+  .neon-border-glow:focus-within {
+    @apply border-primary shadow-[0_0_15px_rgba(19,236,236,0.4)];
+  }
+  
+  .bg-glow-teal {
+    background: radial-gradient(circle at 50% 50%, rgba(19, 236, 236, 0.15) 0%, transparent 70%);
+  }
+  
+  .bg-glow-violet {
+    background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  }
+  
+  .diagonal-line {
+    background: linear-gradient(45deg, transparent 48%, rgba(19, 236, 236, 0.1) 50%, transparent 52%);
+  }
+  
+  .btn-angled {
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+  }
+}
+
+body {
+  @apply min-h-screen overflow-x-hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #13ecec rgba(0, 0, 0, 0.1);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #13ecec;
+  border-radius: 20px;
+}

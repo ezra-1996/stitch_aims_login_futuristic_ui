@@ -1,0 +1,89 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: aims-db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: aims_db
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: aims_user
+      MYSQL_PASSWORD: aims_password
+    ports:
+      - "3306:3306"
+    networks:
+      - aims-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:alpine
+    container_name: aims-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - aims-network
+
+  backend:
+    build: ./backend
+    container_name: aims-backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=aims_db
+      - DB_USER=aims_user
+      - DB_PASSWORD=aims_password
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - aims-network
+
+  celery_worker:
+    build: ./backend
+    container_name: aims-worker
+    command: celery -A AIMS worker --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      - DB_HOST=db
+      - DB_NAME=aims_db
+      - DB_USER=aims_user
+      - DB_PASSWORD=aims_password
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+      - backend
+    networks:
+      - aims-network
+
+  frontend:
+    build: ./aims-app
+    container_name: aims-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - aims-network
+
+networks:
+  aims-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

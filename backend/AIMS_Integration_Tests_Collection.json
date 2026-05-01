@@ -1,0 +1,201 @@
+{
+  "info": {
+    "name": "Integration Tests (End-to-End)",
+    "description": "Integration testing scenarios replicating Chapter 4.5.3 verification of Frontend-Backend, Backend-AI, and complete End-to-End flows.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Frontend–Backend Integration (Login)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Scenario 1: Frontend-Backend communication successful\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Scenario 1: System securely issued session tokens\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('access');",
+              "    pm.environment.set(\"access_token\", jsonData.access);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"student_1\",\n    \"password\": \"student123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login",
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "Backend–AI Service Integration (Face Verification)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Scenario 2: Backend communicated with AI Service properly\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "pm.test(\"Scenario 2: Face verification payload processed\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.not.be.empty;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": []
+            },
+            {
+              "key": "latitude",
+              "value": "40.7128",
+              "type": "text"
+            },
+            {
+              "key": "longitude",
+              "value": "-74.0060",
+              "type": "text"
+            },
+            {
+              "key": "student_id",
+              "value": "UNI-2026-001",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/attendance/mark-ai/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "attendance",
+            "mark-ai",
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "E2E State Push (Fetch Report ID)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Internal Pipeline: Application synchronized state over network\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "if (jsonData.length > 0) {",
+              "    pm.environment.set(\"report_id\", jsonData[0].report_id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/evaluation/weekly-reports/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "evaluation",
+            "weekly-reports",
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "End-to-End Workflow (Report Evaluation)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Scenario 3: Complete E2E workflow finalized successfully\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/evaluation/weekly-reports/{{report_id}}/evaluate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "evaluation",
+            "weekly-reports",
+            "{{report_id}}",
+            "evaluate",
+            ""
+          ]
+        }
+      }
+    }
+  ]
+}

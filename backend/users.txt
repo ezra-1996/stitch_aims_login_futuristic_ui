@@ -1,0 +1,32 @@
+
+--- ALL DB USERS ---
+Username             | Role            | Email                     | Password Status
+--------------------------------------------------------------------------------
+uni_admin            | university_admin | admin@university.edu      | Hashed (pbkdf2)
+company_1            | company_admin   | company1@aims.com         | Hashed (pbkdf2)
+company_2            | company_admin   | company2@aims.com         | Hashed (pbkdf2)
+company_3            | company_admin   | company3@aims.com         | Hashed (pbkdf2)
+supervisor_1         | supervisor      | supervisor1@aims.com      | Hashed (pbkdf2)
+supervisor_2         | supervisor      | supervisor2@aims.com      | Hashed (pbkdf2)
+supervisor_3         | supervisor      | supervisor3@aims.com      | Hashed (pbkdf2)
+supervisor_4         | supervisor      | supervisor4@aims.com      | Hashed (pbkdf2)
+supervisor_5         | supervisor      | supervisor5@aims.com      | Hashed (pbkdf2)
+supervisor_6         | supervisor      | supervisor6@aims.com      | Hashed (pbkdf2)
+supervisor_7         | supervisor      | supervisor7@aims.com      | Hashed (pbkdf2)
+supervisor_8         | supervisor      | supervisor8@aims.com      | Hashed (pbkdf2)
+supervisor_9         | supervisor      | supervisor9@aims.com      | Hashed (pbkdf2)
+student_1            | student         | student1@university.edu   | Hashed (pbkdf2)
+student_2            | student         | student2@university.edu   | Hashed (pbkdf2)
+student_3            | student         | student3@university.edu   | Hashed (pbkdf2)
+student_4            | student         | student4@university.edu   | Hashed (pbkdf2)
+student_5            | student         | student5@university.edu   | Hashed (pbkdf2)
+student_6            | student         | student6@university.edu   | Hashed (pbkdf2)
+student_7            | student         | student7@university.edu   | Hashed (pbkdf2)
+teststudent          | student         | test@ju.edu.et            | Hashed (pbkdf2)
+student123           | student         | student@aims.edu          | Hashed (pbkdf2)
+supervisor           | supervisor      | supervisor@aims.edu       | Hashed (pbkdf2)
+company              | company_admin   | company@aims.com          | Hashed (pbkdf2)
+admin                | university_admin | admin@aims.edu            | Hashed (pbkdf2)
+ezraserki            | student         | ezraserkalem@gmail.com    | Hashed (pbkdf2)
+--------------------
+

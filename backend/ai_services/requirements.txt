@@ -1,0 +1,13 @@
+# Minimal AI/ML Dependencies for AIMS Project
+# Optimized for Gemini Cloud AI + Lightweight Local Fallbacks (OpenCV/Dlib)
+
+# Core Dependencies
+numpy>=1.23.5
+opencv-python-headless>=4.8.0
+Pillow>=10.0.1
+requests>=2.31.0
+tqdm>=4.66.1
+
+# Google AI SDKs (Primary for Face Verification and Report Evaluation)
+google-genai>=0.3.0
+google-genai>=0.1.0
